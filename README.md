@@ -1,29 +1,42 @@
-# borrador-menu-principal
+# 📋 Borrador Menú Principal
 
-Proyecto HTML para crear un borrador de menú principal.
+Proyecto HTML para crear un borrador de menú principal desarrollado por **Isaac Esteban Haro Torres**.
 
-## Descripción
+---
+
+## 📝 Descripción
 
 Página HTML que sirve como borrador para el diseño de un menú principal de un sitio web.
 
-## Características
+---
+
+## ✨ Características
 
 - Estructura de menú
 - Diseño básico
 - Elementos interactivos
 
-## Stack Tecnológico
+---
+
+## 🛠️ Stack Tecnológico
 
 - HTML5
 - CSS3
 - JavaScript
 
-## Autor
+---
 
-🧑‍💻 **Isaac Haro**
+## 👨‍💻 Desarrollado por Isaac Esteban Haro Torres
 
-Ingeniero en Sistemas · Full Stack · Automatización · Data
+**Ingeniero en Sistemas · Full Stack · Automatización · Data**
 
-## Licencia
+- 📧 Email: zackharo1@gmail.com
+- 📱 WhatsApp: 098805517
+- 💻 GitHub: https://github.com/ieharo1
+- 🌐 Portafolio: https://ieharo1.github.io/portafolio-isaac.haro/
 
-MIT — contribuciones bienvenidas 🚀
+---
+
+## 📄 Licencia
+
+© 2026 Isaac Esteban Haro Torres - Todos los derechos reservados.
