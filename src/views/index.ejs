@@ -1,0 +1,301 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Hash Generator - Inicio</title>
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
+  <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/all.min.css" rel="stylesheet">
+  <style>
+    :root {
+      --primary-color: #2c3e50;
+      --secondary-color: #3498db;
+      --accent-color: #e74c3c;
+    }
+    body {
+      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    }
+    .hero {
+      background: linear-gradient(135deg, var(--primary-color), var(--secondary-color));
+      color: white;
+      padding: 80px 0;
+      border-radius: 0 0 50px 50px;
+    }
+    .feature-card {
+      border: none;
+      border-radius: 15px;
+      padding: 30px;
+      text-align: center;
+      background: white;
+      box-shadow: 0 10px 30px rgba(0,0,0,0.1);
+      transition: transform 0.3s;
+      height: 100%;
+    }
+    .feature-card:hover {
+      transform: translateY(-10px);
+    }
+    .feature-icon {
+      font-size: 3rem;
+      color: var(--secondary-color);
+      margin-bottom: 20px;
+    }
+    .algoritmo-badge {
+      display: inline-block;
+      background: #f8f9fa;
+      padding: 8px 16px;
+      border-radius: 20px;
+      margin: 5px;
+      font-weight: 600;
+      color: var(--primary-color);
+    }
+    .footer-custom {
+      background: var(--primary-color);
+      color: white;
+      padding: 40px 0;
+    }
+    .footer-custom a {
+      color: var(--secondary-color);
+      text-decoration: none;
+    }
+    .footer-custom a:hover {
+      color: white;
+    }
+  </style>
+</head>
+<body>
+  <nav class="navbar navbar-expand-lg navbar-dark" style="background: linear-gradient(135deg, var(--primary-color), var(--secondary-color));">
+    <div class="container">
+      <a class="navbar-brand" href="/">
+        <i class="fas fa-fingerprint me-2"></i>Hash Generator
+      </a>
+      <div class="d-flex">
+        <button class="btn btn-light me-2" data-bs-toggle="modal" data-bs-target="#loginModal">
+          <i class="fas fa-sign-in-alt me-1"></i>Iniciar Sesión
+        </button>
+        <button class="btn btn-outline-light" data-bs-toggle="modal" data-bs-target="#registerModal">
+          <i class="fas fa-user-plus me-1"></i>Registrarse
+        </button>
+      </div>
+    </div>
+  </nav>
+
+  <section class="hero">
+    <div class="container text-center">
+      <h1 class="display-3 fw-bold mb-4">
+        <i class="fas fa-shield-alt me-3"></i>Generador de Hashes
+      </h1>
+      <p class="lead mb-5">Sistema profesional para generar y verificar hashes de manera masiva</p>
+      <div class="mb-4">
+        <span class="algoritmo-badge"><i class="fas fa-key me-1"></i>MD5</span>
+        <span class="algoritmo-badge"><i class="fas fa-key me-1"></i>SHA1</span>
+        <span class="algoritmo-badge"><i class="fas fa-key me-1"></i>SHA256</span>
+        <span class="algoritmo-badge"><i class="fas fa-key me-1"></i>SHA512</span>
+        <span class="algoritmo-badge"><i class="fas fa-key me-1"></i>bcrypt</span>
+      </div>
+      <button class="btn btn-light btn-lg" data-bs-toggle="modal" data-bs-target="#registerModal">
+        <i class="fas fa-rocket me-2"></i>Comenzar Ahora
+      </button>
+    </div>
+  </section>
+
+  <section class="py-5">
+    <div class="container">
+      <h2 class="text-center mb-5">Características Principales</h2>
+      <div class="row g-4">
+        <div class="col-md-4">
+          <div class="feature-card">
+            <i class="fas fa-bolt feature-icon"></i>
+            <h4>Generación Rápida</h4>
+            <p>Genera hashes al instante con los algoritmos más populares del mercado.</p>
+          </div>
+        </div>
+        <div class="col-md-4">
+          <div class="feature-card">
+            <i class="fas fa-check-circle feature-icon"></i>
+            <h4>Verificación</h4>
+            <p>Verifica la integridad de tus datos comparando hashes de manera segura.</p>
+          </div>
+        </div>
+        <div class="col-md-4">
+          <div class="feature-card">
+            <i class="fas fa-file-upload feature-icon"></i>
+            <h4>Carga Masiva</h4>
+            <p>Procesa archivos completos .txt o .csv para generar hashes en lote.</p>
+          </div>
+        </div>
+        <div class="col-md-4">
+          <div class="feature-card">
+            <i class="fas fa-history feature-icon"></i>
+            <h4>Historial</h4>
+            <p>Guarda todo el historial de operaciones para futuras referencias.</p>
+          </div>
+        </div>
+        <div class="col-md-4">
+          <div class="feature-card">
+            <i class="fas fa-download feature-icon"></i>
+            <h4>Exportación</h4>
+            <p>Exporta todos tus resultados en CSV o TXT para compartir.</p>
+          </div>
+        </div>
+        <div class="col-md-4">
+          <div class="feature-card">
+            <i class="fas fa-lock feature-icon"></i>
+            <h4>Seguridad</h5>
+            <p>Sistema seguro con JWT, encriptación y protección contra ataques.</p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <footer class="footer-custom">
+    <div class="container">
+      <div class="row">
+        <div class="col-12 text-center">
+          <h5 class="mb-3">👨‍💻 Desarrollado por Isaac Esteban Haro Torres</h5>
+          <p class="mb-2">
+            <strong>Ingeniero en Sistemas</strong> · <strong>Full Stack</strong> · <strong>Automatización</strong> · <strong>Data</strong>
+          </p>
+          <div class="d-flex justify-content-center flex-wrap gap-3">
+            <a href="mailto:zackharo1@gmail.com">
+              <i class="fas fa-envelope me-1"></i>Email: zackharo1@gmail.com
+            </a>
+            <a href="https://wa.me/59398805517" target="_blank">
+              <i class="fab fa-whatsapp me-1"></i>WhatsApp: 098805517
+            </a>
+            <a href="https://github.com/ieharo1" target="_blank">
+              <i class="fab fa-github me-1"></i>GitHub
+            </a>
+            <a href="https://ieharo1.github.io/portafolio-isaac.haro/" target="_blank">
+              <i class="fas fa-globe me-1"></i>Portafolio
+            </a>
+          </div>
+          <hr class="my-3" style="border-color: rgba(255,255,255,0.3);">
+          <p class="mb-0 text-white-50">
+            <small>© <%= new Date().getFullYear() %> Hash Generator - Sistema Profesional de Gestión de Hashes</small>
+          </p>
+        </div>
+      </div>
+    </div>
+  </footer>
+
+  <div class="modal fade" id="loginModal" tabindex="-1">
+    <div class="modal-dialog">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h5 class="modal-title">Iniciar Sesión</h5>
+          <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+        </div>
+        <div class="modal-body">
+          <form id="loginForm">
+            <div class="mb-3">
+              <label class="form-label">Email</label>
+              <input type="email" class="form-control" name="email" required>
+            </div>
+            <div class="mb-3">
+              <label class="form-label">Contraseña</label>
+              <input type="password" class="form-control" name="password" required>
+            </div>
+            <div id="loginError" class="alert alert-danger d-none"></div>
+            <button type="submit" class="btn btn-primary w-100">Iniciar Sesión</button>
+          </form>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="modal fade" id="registerModal" tabindex="-1">
+    <div class="modal-dialog">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h5 class="modal-title">Registrarse</h5>
+          <button type="button" class="btn-close" data-bs-default"></button>
+        </div>
+        <div class="modal-body">
+          <form id="registerForm">
+            <div class="mb-3">
+              <label class="form-label">Usuario</label>
+              <input type="text" class="form-control" name="username" required minlength="3">
+            </div>
+            <div class="mb-3">
+              <label class="form-label">Email</label>
+              <input type="email" class="form-control" name="email" required>
+            </div>
+            <div class="mb-3">
+              <label class="form-label">Contraseña</label>
+              <input type="password" class="form-control" name="password" required minlength="6">
+            </div>
+            <div id="registerError" class="alert alert-danger d-none"></div>
+            <button type="submit" class="btn btn-primary w-100">Registrarse</button>
+          </form>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
+  <script>
+    function setToken(token) { localStorage.setItem('hash_token', token); }
+    function getToken() { return localStorage.getItem('hash_token'); }
+
+    document.getElementById('loginForm')?.addEventListener('submit', async (e) => {
+      e.preventDefault();
+      const data = Object.fromEntries(new FormData(e.target));
+      const errorDiv = document.getElementById('loginError');
+      
+      try {
+        const res = await fetch('/login', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify(data)
+        });
+        const result = await res.json();
+        if (result.success) {
+          setToken(result.token);
+          window.location.href = '/dashboard';
+        } else {
+          errorDiv.textContent = result.message;
+          errorDiv.classList.remove('d-none');
+        }
+      } catch (err) {
+        errorDiv.textContent = 'Error de conexión';
+        errorDiv.classList.remove('d-none');
+      }
+    });
+
+    document.getElementById('registerForm')?.addEventListener('submit', async (e) => {
+      e.preventDefault();
+      const data = Object.fromEntries(new FormData(e.target));
+      const errorDiv = document.getElementById('registerError');
+      
+      try {
+        const res = await fetch('/register', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify(data)
+        });
+        const result = await res.json();
+        if (result.success) {
+          setToken(result.token);
+          window.location.href = '/dashboard';
+        } else {
+          errorDiv.textContent = result.message || result.errors?.[0]?.msg;
+          errorDiv.classList.remove('d-none');
+        }
+      } catch (err) {
+        errorDiv.textContent = 'Error de conexión';
+        errorDiv.classList.remove('d-none');
+      }
+    });
+
+    if (getToken()) {
+      fetch('/me', {
+        headers: { 'Authorization': `Bearer ${getToken()}` }
+      }).then(res => res.json()).then(data => {
+        if (!data.success) localStorage.removeItem('hash_token');
+        else window.location.href = '/dashboard';
+      });
+    }
+  </script>
+</body>
+</html>

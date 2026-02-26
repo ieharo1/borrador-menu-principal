@@ -1,0 +1,185 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title><%= title %></title>
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
+  <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/all.min.css" rel="stylesheet">
+  <style>
+    :root { --primary: #2c3e50; --secondary: #3498db; }
+    body { font-family: 'Segoe UI', sans-serif; background: #f8f9fa; }
+    .sidebar { background: white; border-radius: 12px; padding: 20px; box-shadow: 0 2px 4px rgba(0,0,0,0.1); }
+    .sidebar a { display: block; padding: 12px 15px; color: var(--primary); text-decoration: none; border-radius: 8px; margin-bottom: 5px; transition: 0.3s; }
+    .sidebar a:hover, .sidebar a.active { background: var(--secondary); color: white; }
+    .result-box { font-family: 'Courier New', monospace; background: #f8f9fa; padding: 15px; border-radius: 8px; word-break: break-all; border: 1px solid #dee2e6; }
+    .footer-custom { background: var(--primary); color: white; padding: 30px 0; }
+    .footer-custom a { color: var(--secondary); text-decoration: none; }
+  </style>
+</head>
+<body>
+  <nav class="navbar navbar-expand-lg navbar-dark" style="background: linear-gradient(135deg, var(--primary), var(--secondary));">
+    <div class="container">
+      <a class="navbar-brand" href="/"><i class="fas fa-fingerprint me-2"></i>Hash Generator</a>
+      <div class="d-flex align-items-center">
+        <span class="text-white me-3"><i class="fas fa-user me-1"></i><%= user.username %></span>
+        <button class="btn btn-outline-light btn-sm" onclick="logout()"><i class="fas fa-sign-out-alt"></i></button>
+      </div>
+    </div>
+  </nav>
+
+  <div class="container py-4">
+    <div class="row">
+      <div class="col-md-3 mb-4">
+        <div class="sidebar">
+          <h6 class="text-uppercase text-muted mb-3">Menú</h6>
+          <a href="/dashboard"><i class="fas fa-tachometer-alt me-2"></i>Dashboard</a>
+          <a href="/dashboard/generar" class="active"><i class="fas fa-plus-circle me-2"></i>Generar Hash</a>
+          <a href="/dashboard/verificar"><i class="fas fa-check-circle me-2"></i>Verificar Hash</a>
+          <a href="/dashboard/carga-masiva"><i class="fas fa-file-upload me-2"></i>Carga Masiva</a>
+          <a href="/dashboard/historial"><i class="fas fa-history me-2"></i>Historial</a>
+          <a href="/dashboard/exportar"><i class="fas fa-download me-2"></i>Exportar</a>
+        </div>
+      </div>
+      <div class="col-md-9">
+        <h2 class="mb-4"><i class="fas fa-plus-circle me-2"></i>Generar Hash</h2>
+        
+        <div class="card">
+          <div class="card-body">
+            <form id="generateForm">
+              <div class="mb-3">
+                <label class="form-label">Texto a hashear</label>
+                <textarea class="form-control" name="input" rows="3" placeholder="Ingrese el texto que desea hashear" required></textarea>
+              </div>
+              <div class="mb-3">
+                <label class="form-label">Algoritmo</label>
+                <select class="form-select" name="algorithm" required>
+                  <option value="MD5">MD5</option>
+                  <option value="SHA1">SHA1</option>
+                  <option value="SHA256" selected>SHA256</option>
+                  <option value="SHA512">SHA512</option>
+                  <option value="bcrypt">bcrypt</option>
+                </select>
+              </div>
+              <div id="resultArea" class="d-none">
+                <label class="form-label">Resultado</label>
+                <div class="result-box mb-2" id="hashResult"></div>
+                <button type="button" class="btn btn-outline-secondary btn-sm" onclick="copyHash()">
+                  <i class="fas fa-copy me-1"></i>Copiar
+                </button>
+              </div>
+              <div id="errorArea" class="alert alert-danger d-none"></div>
+              <button type="submit" class="btn btn-primary" id="generateBtn">
+                <i class="fas fa-key me-1"></i>Generar Hash
+              </button>
+            </form>
+          </div>
+        </div>
+
+        <div class="card mt-4">
+          <div class="card-header">
+            <h5 class="mb-0"><i class="fas fa-info-circle me-2"></i>Información de Algoritmos</h5>
+          </div>
+          <div class="card-body">
+            <div class="row">
+              <div class="col-md-6 mb-3">
+                <h6><strong>MD5</strong></h6>
+                <p class="text-muted small">128 bits. Rápido pero no seguro. No recomendado para contraseñas.</p>
+              </div>
+              <div class="col-md-6 mb-3">
+                <h6><strong>SHA1</strong></h6>
+                <p class="text-muted small">160 bits. Obsoleto. No recomendado para seguridad.</p>
+              </div>
+              <div class="col-md-6 mb-3">
+                <h6><strong>SHA256</strong></h6>
+                <p class="text-muted small">256 bits. Seguro y ampliamente usado.</p>
+              </div>
+              <div class="col-md-6 mb-3">
+                <h6><strong>SHA512</strong></h6>
+                <p class="text-muted small">512 bits. Muy seguro. Recomendado para alta seguridad.</p>
+              </div>
+              <div class="col-md-6 mb-3">
+                <h6><strong>bcrypt</strong></h6>
+                <p class="text-muted small">Algoritmo adaptativo. Ideal para contraseñas.</p>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <footer class="footer-custom">
+    <div class="container">
+      <div class="row">
+        <div class="col-12 text-center">
+          <h5 class="mb-3">👨‍💻 Desarrollado por Isaac Esteban Haro Torres</h5>
+          <p class="mb-2"><strong>Ingeniero en Sistemas</strong> · <strong>Full Stack</strong> · <strong>Automatización</strong> · <strong>Data</strong></p>
+          <div class="d-flex justify-content-center flex-wrap gap-3">
+            <a href="mailto:zackharo1@gmail.com"><i class="fas fa-envelope me-1"></i>Email: zackharo1@gmail.com</a>
+            <a href="https://wa.me/59398805517" target="_blank"><i class="fab fa-whatsapp me-1"></i>WhatsApp: 098805517</a>
+            <a href="https://github.com/ieharo1" target="_blank"><i class="fab fa-github me-1"></i>GitHub</a>
+            <a href="https://ieharo1.github.io/portafolio-isaac.haro/" target="_blank"><i class="fas fa-globe me-1"></i>Portafolio</a>
+          </div>
+          <hr class="my-3" style="border-color: rgba(255,255,255,0.3);">
+          <p class="mb-0 text-white-50"><small>© <%= new Date().getFullYear() %> Hash Generator</small></p>
+        </div>
+      </div>
+    </div>
+  </footer>
+
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
+  <script>
+    function getToken() { return localStorage.getItem('hash_token'); }
+    function logout() { localStorage.removeItem('hash_token'); window.location.href = '/'; }
+
+    let currentHash = '';
+
+    document.getElementById('generateForm').addEventListener('submit', async (e) => {
+      e.preventDefault();
+      const formData = new FormData(e.target);
+      const data = Object.fromEntries(formData);
+      const btn = document.getElementById('generateBtn');
+      const errorArea = document.getElementById('errorArea');
+      
+      btn.disabled = true;
+      btn.innerHTML = '<span class="spinner-border spinner-border-sm me-1"></span>Generando...';
+      errorArea.classList.add('d-none');
+      document.getElementById('resultArea').classList.add('d-none');
+
+      try {
+        const res = await fetch('/api/hashes/generate', {
+          method: 'POST',
+          headers: { 
+            'Content-Type': 'application/json',
+            'Authorization': `Bearer ${getToken()}`
+          },
+          body: JSON.stringify(data)
+        });
+        const result = await res.json();
+
+        if (result.success) {
+          currentHash = result.data.hash;
+          document.getElementById('hashResult').textContent = currentHash;
+          document.getElementById('resultArea').classList.remove('d-none');
+        } else {
+          errorArea.textContent = result.message;
+          errorArea.classList.remove('d-none');
+        }
+      } catch (err) {
+        errorArea.textContent = 'Error de conexión';
+        errorArea.classList.remove('d-none');
+      } finally {
+        btn.disabled = false;
+        btn.innerHTML = '<i class="fas fa-key me-1"></i>Generar Hash';
+      }
+    });
+
+    function copyHash() {
+      navigator.clipboard.writeText(currentHash).then(() => {
+        alert('Hash copiado al portapapeles');
+      });
+    }
+  </script>
+</body>
+</html>

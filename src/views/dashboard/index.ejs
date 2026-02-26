@@ -1,0 +1,157 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title><%= title %></title>
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
+  <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/all.min.css" rel="stylesheet">
+  <style>
+    :root { --primary: #2c3e50; --secondary: #3498db; }
+    body { font-family: 'Segoe UI', sans-serif; background: #f8f9fa; }
+    .sidebar { background: white; border-radius: 12px; padding: 20px; box-shadow: 0 2px 4px rgba(0,0,0,0.1); }
+    .sidebar a { display: block; padding: 12px 15px; color: var(--primary); text-decoration: none; border-radius: 8px; margin-bottom: 5px; transition: 0.3s; }
+    .sidebar a:hover, .sidebar a.active { background: var(--secondary); color: white; }
+    .stat-card { background: linear-gradient(135deg, var(--secondary), #2980b9); color: white; border-radius: 12px; padding: 20px; text-align: center; }
+    .stat-card i { font-size: 2.5rem; opacity: 0.8; }
+    .stat-card h3 { font-size: 2rem; margin: 10px 0; }
+    .table-container { background: white; border-radius: 12px; padding: 20px; box-shadow: 0 2px 4px rgba(0,0,0,0.1); }
+    .footer-custom { background: var(--primary); color: white; padding: 30px 0; }
+    .footer-custom a { color: var(--secondary); text-decoration: none; }
+    .footer-custom a:hover { color: white; }
+    .hash-display { font-family: 'Courier New', monospace; background: #f8f9fa; padding: 8px; border-radius: 5px; word-break: break-all; font-size: 0.8rem; }
+  </style>
+</head>
+<body>
+  <nav class="navbar navbar-expand-lg navbar-dark" style="background: linear-gradient(135deg, var(--primary), var(--secondary));">
+    <div class="container">
+      <a class="navbar-brand" href="/"><i class="fas fa-fingerprint me-2"></i>Hash Generator</a>
+      <div class="d-flex align-items-center">
+        <span class="text-white me-3"><i class="fas fa-user me-1"></i><%= user.username %></span>
+        <span class="badge bg-light text-dark me-3"><%= user.role %></span>
+        <button class="btn btn-outline-light btn-sm" onclick="logout()"><i class="fas fa-sign-out-alt"></i></button>
+      </div>
+    </div>
+  </nav>
+
+  <div class="container py-4">
+    <div class="row">
+      <div class="col-md-3 mb-4">
+        <div class="sidebar">
+          <h6 class="text-uppercase text-muted mb-3">Menú</h6>
+          <a href="/dashboard" class="active"><i class="fas fa-tachometer-alt me-2"></i>Dashboard</a>
+          <a href="/dashboard/generar"><i class="fas fa-plus-circle me-2"></i>Generar Hash</a>
+          <a href="/dashboard/verificar"><i class="fas fa-check-circle me-2"></i>Verificar Hash</a>
+          <a href="/dashboard/carga-masiva"><i class="fas fa-file-upload me-2"></i>Carga Masiva</a>
+          <a href="/dashboard/historial"><i class="fas fa-history me-2"></i>Historial</a>
+          <a href="/dashboard/exportar"><i class="fas fa-download me-2"></i>Exportar</a>
+          <% if (user.role === 'admin') { %>
+          <a href="/dashboard/logs"><i class="fas fa-clipboard-list me-2"></i>Logs</a>
+          <% } %>
+        </div>
+      </div>
+      <div class="col-md-9">
+        <h2 class="mb-4"><i class="fas fa-tachometer-alt me-2"></i>Dashboard</h2>
+        
+        <div class="row g-3 mb-4">
+          <div class="col-md-4">
+            <div class="stat-card">
+              <i class="fas fa-key"></i>
+              <h3><%= stats.totalHashes %></h3>
+              <p class="mb-0">Total de Hashes</p>
+            </div>
+          </div>
+          <div class="col-md-4">
+            <div class="stat-card" style="background: linear-gradient(135deg, #27ae60, #2ecc71);">
+              <i class="fas fa-plus"></i>
+              <h3><%= stats.generated %></h3>
+              <p class="mb-0">Generados</p>
+            </div>
+          </div>
+          <div class="col-md-4">
+            <div class="stat-card" style="background: linear-gradient(135deg, #e67e22, #f39c12);">
+              <i class="fas fa-check"></i>
+              <h3><%= stats.verified %></h3>
+              <p class="mb-0">Verificados</p>
+            </div>
+          </div>
+        </div>
+
+        <div class="table-container mb-4">
+          <h5 class="mb-3"><i class="fas fa-chart-pie me-2"></i>Estadísticas por Algoritmo</h5>
+          <div class="row">
+            <% stats.algorithmStats.forEach(stat => { %>
+              <div class="col-md-2 col-4 mb-2">
+                <div class="text-center p-2 bg-light rounded">
+                  <strong><%= stat._id %></strong>
+                  <br><span class="text-muted"><%= stat.count %></span>
+                </div>
+              </div>
+            <% }) %>
+          </div>
+        </div>
+
+        <div class="table-container">
+          <h5 class="mb-3"><i class="fas fa-clock me-2"></i>Actividad Reciente</h5>
+          <div class="table-responsive">
+            <table class="table table-hover">
+              <thead>
+                <tr>
+                  <th>Tipo</th>
+                  <th>Algoritmo</th>
+                  <th>Input</th>
+                  <th>Hash</th>
+                  <th>Fecha</th>
+                </tr>
+              </thead>
+              <tbody>
+                <% recentHistory.forEach(item => { %>
+                  <tr>
+                    <td>
+                      <span class="badge <%= item.type === 'generate' ? 'bg-success' : 'bg-warning' %>">
+                        <%= item.type === 'generate' ? 'Generado' : 'Verificado' %>
+                      </span>
+                    </td>
+                    <td><strong><%= item.algorithm %></strong></td>
+                    <td class="text-truncate" style="max-width: 100px;"><%= item.input %></td>
+                    <td><div class="hash-display"><%= item.result ? item.result.substring(0, 20) + '...' : 'N/A' %></div></td>
+                    <td><small><%= new Date(item.createdAt).toLocaleString() %></small></td>
+                  </tr>
+                <% }) %>
+                <% if (recentHistory.length === 0) { %>
+                  <tr><td colspan="5" class="text-center text-muted">No hay actividad reciente</td></tr>
+                <% } %>
+              </tbody>
+            </table>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <footer class="footer-custom">
+    <div class="container">
+      <div class="row">
+        <div class="col-12 text-center">
+          <h5 class="mb-3">👨‍💻 Desarrollado por Isaac Esteban Haro Torres</h5>
+          <p class="mb-2"><strong>Ingeniero en Sistemas</strong> · <strong>Full Stack</strong> · <strong>Automatización</strong> · <strong>Data</strong></p>
+          <div class="d-flex justify-content-center flex-wrap gap-3">
+            <a href="mailto:zackharo1@gmail.com"><i class="fas fa-envelope me-1"></i>Email: zackharo1@gmail.com</a>
+            <a href="https://wa.me/59398805517" target="_blank"><i class="fab fa-whatsapp me-1"></i>WhatsApp: 098805517</a>
+            <a href="https://github.com/ieharo1" target="_blank"><i class="fab fa-github me-1"></i>GitHub</a>
+            <a href="https://ieharo1.github.io/portafolio-isaac.haro/" target="_blank"><i class="fas fa-globe me-1"></i>Portafolio</a>
+          </div>
+          <hr class="my-3" style="border-color: rgba(255,255,255,0.3);">
+          <p class="mb-0 text-white-50"><small>© <%= new Date().getFullYear() %> Hash Generator</small></p>
+        </div>
+      </div>
+    </div>
+  </footer>
+
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
+  <script>
+    function getToken() { return localStorage.getItem('hash_token'); }
+    function logout() { localStorage.removeItem('hash_token'); window.location.href = '/'; }
+  </script>
+</body>
+</html>
